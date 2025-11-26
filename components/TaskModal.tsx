@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { COLORS, ColorType } from '@/lib/types';
+import { COLOR_MAP } from '@/lib/colors';
 
 interface TaskModalProps {
     userId: string;
@@ -67,26 +68,6 @@ export default function TaskModal({ userId, onClose, onTaskCreated }: TaskModalP
         } finally {
             setIsSubmitting(false);
         }
-    };
-
-    const colorMap: Record<string, string> = {
-        'blue-500': '#3b82f6',
-        'green-500': '#22c55e',
-        'emerald-500': '#10b981',
-        'lime-500': '#84cc16',
-        'red-500': '#ef4444',
-        'rose-500': '#f43f5e',
-        'orange-500': '#f97316',
-        'amber-500': '#f59e0b',
-        'yellow-500': '#eab308',
-        'purple-500': '#a855f7',
-        'violet-500': '#8b5cf6',
-        'fuchsia-500': '#d946ef',
-        'pink-500': '#ec4899',
-        'indigo-500': '#6366f1',
-        'sky-500': '#0ea5e9',
-        'teal-500': '#14b8a6',
-        'cyan-500': '#06b6d4',
     };
 
     return (
@@ -165,7 +146,7 @@ export default function TaskModal({ userId, onClose, onTaskCreated }: TaskModalP
                                     type="button"
                                     className={`w-8 h-8 rounded-full cursor-pointer ${color === c ? 'ring-2 ring-gray-400 ring-offset-2' : ''
                                         }`}
-                                    style={{ backgroundColor: colorMap[c] }}
+                                    style={{ backgroundColor: COLOR_MAP[c] }}
                                     onClick={() => setColor(c)}
                                 />
                             ))}

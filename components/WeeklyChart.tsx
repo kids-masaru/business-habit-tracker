@@ -12,6 +12,7 @@ import {
 import { Bar } from 'react-chartjs-2';
 import { Record as WorkRecord, Task } from '@/lib/types';
 import { useMemo } from 'react';
+import { COLOR_MAP, hexToRgb } from '@/lib/colors';
 
 ChartJS.register(
     CategoryScale,
@@ -46,24 +47,7 @@ export default function WeeklyChart({ records, tasks }: WeeklyChartProps) {
                 return dayRecords.reduce((sum, r) => sum + r.duration, 0);
             });
 
-            // Tailwindの色名をRGBに変換する簡易マッピング
-            const getColor = (colorName: string) => {
-                const colors: { [key: string]: string } = {
-                    'blue-500': '59, 130, 246',
-                    'green-500': '34, 197, 94',
-                    'red-500': '239, 68, 68',
-                    'yellow-500': '234, 179, 8',
-                    'purple-500': '168, 85, 247',
-                    'pink-500': '236, 72, 153',
-                    'indigo-500': '99, 102, 241',
-                    'teal-500': '20, 184, 166',
-                    'orange-500': '249, 115, 22',
-                    'cyan-500': '6, 182, 212',
-                };
-                return colors[task.color] || '209, 213, 219';
-            };
-
-            const color = getColor(task.color);
+            const color = hexToRgb(COLOR_MAP[task.color] || '#d1d5db');
 
             return {
                 label: task.name,
