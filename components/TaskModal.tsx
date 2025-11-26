@@ -69,6 +69,26 @@ export default function TaskModal({ userId, onClose, onTaskCreated }: TaskModalP
         }
     };
 
+    const colorMap: Record<string, string> = {
+        'blue-500': '#3b82f6',
+        'green-500': '#22c55e',
+        'emerald-500': '#10b981',
+        'lime-500': '#84cc16',
+        'red-500': '#ef4444',
+        'rose-500': '#f43f5e',
+        'orange-500': '#f97316',
+        'amber-500': '#f59e0b',
+        'yellow-500': '#eab308',
+        'purple-500': '#a855f7',
+        'violet-500': '#8b5cf6',
+        'fuchsia-500': '#d946ef',
+        'pink-500': '#ec4899',
+        'indigo-500': '#6366f1',
+        'sky-500': '#0ea5e9',
+        'teal-500': '#14b8a6',
+        'cyan-500': '#06b6d4',
+    };
+
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 animate-fadeIn">
             <div className="bg-white rounded-lg w-full max-w-md p-6 m-4 shadow-xl transform transition-all">
@@ -133,57 +153,81 @@ export default function TaskModal({ userId, onClose, onTaskCreated }: TaskModalP
                             required
                         />
                     </div>
-                    checked={setReminder}
-                    onChange={(e) => setSetReminder(e.target.checked)}
-                            />
-                    <span className="ml-2 text-sm text-gray-700">
-                        リマインダーを設定する
-                    </span>
-                </label>
-            </div>
 
-            {setReminder && (
-                <div className="mb-4 grid grid-cols-2 gap-3 bg-gray-50 p-3 rounded-md">
-                    <div>
-                        <label className="block text-xs text-gray-600 mb-1">時間</label>
-                        <input
-                            type="time"
-                            className="w-full text-sm p-1 border rounded"
-                            value={reminderTime}
-                            onChange={(e) => setReminderTime(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-xs text-gray-600 mb-1">
-                            繰り返し
+                    <div className="mb-4">
+                        <label className="block text-gray-700 text-sm font-medium mb-2">
+                            カラー
                         </label>
-                        <select
-                            className="w-full text-sm p-1 border rounded"
-                            value={reminderRepeat}
-                            onChange={(e) =>
-                                setReminderRepeat(
-                                    e.target.value as 'daily' | 'weekdays' | 'weekends'
-                                )
-                            }
-                        >
-                            <option value="daily">毎日</option>
-                            <option value="weekdays">平日のみ</option>
-                            <option value="weekends">週末のみ</option>
-                        </select>
+                        <div className="flex flex-wrap gap-2">
+                            {COLORS.map((c) => (
+                                <button
+                                    key={c}
+                                    type="button"
+                                    className={`w-8 h-8 rounded-full cursor-pointer ${color === c ? 'ring-2 ring-gray-400 ring-offset-2' : ''
+                                        }`}
+                                    style={{ backgroundColor: colorMap[c] }}
+                                    onClick={() => setColor(c)}
+                                />
+                            ))}
+                        </div>
                     </div>
-                </div>
-            )}
 
-            <button
-                type="submit"
-                disabled={isSubmitting}
-                className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-                    }`}
-            >
-                {isSubmitting ? '追加中...' : '追加する'}
-            </button>
-        </form>
-            </div >
-        </div >
+                    <div className="mb-4">
+                        <label className="flex items-center cursor-pointer">
+                            <input
+                                type="checkbox"
+                                className="h-4 w-4 text-blue-600 rounded focus:ring-blue-500"
+                                checked={setReminder}
+                                onChange={(e) => setSetReminder(e.target.checked)}
+                            />
+                            <span className="ml-2 text-sm text-gray-700">
+                                リマインダーを設定する
+                            </span>
+                        </label>
+                    </div>
+
+                    {setReminder && (
+                        <div className="mb-4 grid grid-cols-2 gap-3 bg-gray-50 p-3 rounded-md">
+                            <div>
+                                <label className="block text-xs text-gray-600 mb-1">時間</label>
+                                <input
+                                    type="time"
+                                    className="w-full text-sm p-1 border rounded"
+                                    value={reminderTime}
+                                    onChange={(e) => setReminderTime(e.target.value)}
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs text-gray-600 mb-1">
+                                    繰り返し
+                                </label>
+                                <select
+                                    className="w-full text-sm p-1 border rounded"
+                                    value={reminderRepeat}
+                                    onChange={(e) =>
+                                        setReminderRepeat(
+                                            e.target.value as 'daily' | 'weekdays' | 'weekends'
+                                        )
+                                    }
+                                >
+                                    <option value="daily">毎日</option>
+                                    <option value="weekdays">平日のみ</option>
+                                    <option value="weekends">週末のみ</option>
+                                </select>
+                            </div>
+                        </div>
+                    )}
+
+                    <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+                            }`}
+                    >
+                        {isSubmitting ? '追加中...' : '追加する'}
+                    </button>
+                </form>
+            </div>
+        </div>
     );
 }
