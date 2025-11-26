@@ -5,6 +5,7 @@ import {
     updateReminder,
     deleteReminder,
     deleteReminderByTaskId,
+    createUser,
 } from '@/lib/db';
 import { v4 as uuidv4 } from 'uuid';
 import { Reminder } from '@/lib/types';
@@ -54,6 +55,9 @@ export async function POST(request: NextRequest) {
             time,
             repeat,
         };
+
+        // ユーザーが存在しない場合は作成（FK制約のため）
+        await createUser(userId);
 
         const createdReminder = await createReminder(reminder);
         return NextResponse.json({ success: true, data: createdReminder });

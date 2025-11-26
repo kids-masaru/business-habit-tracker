@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getRecords, createRecord, deleteRecord } from '@/lib/db';
+import { getRecords, createRecord, deleteRecord, createUser } from '@/lib/db';
 import { v4 as uuidv4 } from 'uuid';
 import { Record } from '@/lib/types';
 
@@ -75,6 +75,9 @@ export async function POST(request: NextRequest) {
             duration: parseInt(duration),
             date,
         };
+
+        // ユーザーが存在しない場合は作成（FK制約のため）
+        await createUser(userId);
 
         const createdRecord = await createRecord(record);
         return NextResponse.json({ success: true, data: createdRecord });

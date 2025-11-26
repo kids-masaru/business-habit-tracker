@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getTasks, createTask, updateTask, deleteTask } from '@/lib/db';
+import { getTasks, createTask, updateTask, deleteTask, createUser } from '@/lib/db';
 import { v4 as uuidv4 } from 'uuid';
 import { Task } from '@/lib/types';
 
@@ -47,6 +47,9 @@ export async function POST(request: NextRequest) {
             duration: parseInt(duration),
             color,
         };
+
+        // ユーザーが存在しない場合は作成（FK制約のため）
+        await createUser(userId);
 
         const createdTask = await createTask(task);
         return NextResponse.json({ success: true, data: createdTask });
