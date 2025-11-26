@@ -39,11 +39,11 @@ export default function TaskModal({ userId, onClose, onTaskCreated }: TaskModalP
                 }),
             });
 
-            if (!taskResponse.ok) {
-                throw new Error('Failed to create task');
-            }
-
             const taskData = await taskResponse.json();
+
+            if (!taskResponse.ok) {
+                throw new Error(taskData.error || 'Failed to create task');
+            }
 
             // リマインダー作成（設定されている場合）
             if (setReminder && taskData.success && taskData.data) {
@@ -61,9 +61,9 @@ export default function TaskModal({ userId, onClose, onTaskCreated }: TaskModalP
             }
 
             onTaskCreated();
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error creating task:', error);
-            alert('タスクの作成に失敗しました');
+            alert(`タスクの作成に失敗しました: ${error.message}`);
         } finally {
             setIsSubmitting(false);
         }

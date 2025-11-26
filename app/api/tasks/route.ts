@@ -53,10 +53,10 @@ export async function POST(request: NextRequest) {
 
         const createdTask = await createTask(task);
         return NextResponse.json({ success: true, data: createdTask });
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error creating task:', error);
         return NextResponse.json(
-            { success: false, error: 'Failed to create task' },
+            { success: false, error: error.message || 'Failed to create task' },
             { status: 500 }
         );
     }
