@@ -10,6 +10,26 @@ interface TaskListProps {
     onAddTask: () => void;
 }
 
+const colorMap: Record<string, string> = {
+    'blue-500': '#3b82f6',
+    'green-500': '#22c55e',
+    'emerald-500': '#10b981',
+    'lime-500': '#84cc16',
+    'red-500': '#ef4444',
+    'rose-500': '#f43f5e',
+    'orange-500': '#f97316',
+    'amber-500': '#f59e0b',
+    'yellow-500': '#eab308',
+    'purple-500': '#a855f7',
+    'violet-500': '#8b5cf6',
+    'fuchsia-500': '#d946ef',
+    'pink-500': '#ec4899',
+    'indigo-500': '#6366f1',
+    'sky-500': '#0ea5e9',
+    'teal-500': '#14b8a6',
+    'cyan-500': '#06b6d4',
+};
+
 export default function TaskList({
     tasks,
     userId,
@@ -44,7 +64,7 @@ export default function TaskList({
                 <h2 className="text-xl font-semibold text-gray-800">登録済み業務</h2>
                 <button
                     onClick={onAddTask}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py- 1.5 rounded-md text-sm font-medium transition hidden lg:block"
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded-md text-sm font-medium transition hidden lg:block"
                 >
                     業務を追加
                 </button>
@@ -65,7 +85,10 @@ export default function TaskList({
                         >
                             <div className="flex justify-between items-center">
                                 <div className="flex items-center">
-                                    <div className={`w-3 h-3 rounded-full bg-${task.color} mr-2`}></div>
+                                    <div
+                                        className="w-3 h-3 rounded-full mr-2"
+                                        style={{ backgroundColor: colorMap[task.color] || '#gray' }}
+                                    ></div>
                                     <span className="font-medium">{task.name}</span>
                                 </div>
                                 <span className="text-sm text-gray-500">{task.duration}分</span>
@@ -73,7 +96,8 @@ export default function TaskList({
                             <div className="mt-3 flex space-x-2">
                                 <button
                                     onClick={() => onStartTask(task)}
-                                    className={`flex-1 bg-${task.color} hover:opacity-90 text-white py-2 px-3 rounded text-sm font-medium transition`}
+                                    className="flex-1 hover:opacity-90 text-white py-2 px-3 rounded text-sm font-medium transition"
+                                    style={{ backgroundColor: colorMap[task.color] || '#gray' }}
                                 >
                                     開始
                                 </button>
