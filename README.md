@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 業務習慣化アプリ (Business Habit Tracker)
 
-## Getting Started
+Notionウィジェットとして使用できる、業務時間管理・習慣化アプリケーションです。
+Next.jsとVercel Postgresを使用して構築されており、デバイス間のデータ同期が可能です。
 
-First, run the development server:
+## 機能
+
+- **タスク管理**: 業務の追加、編集、削除（色分け可能）
+- **タイマー機能**: 作業時間の計測、一時停止、再開
+- **実績可視化**:
+  - 週間グラフ（棒グラフ）
+  - 業務別割合（ドーナツグラフ）
+  - 月間カレンダー（ヒートマップ風）
+- **リマインダー**: ブラウザ通知による作業開始リマインダー
+- **データ同期**: URL（ユーザーID）による複数デバイス間の同期
+
+## デプロイ手順 (Vercel)
+
+このアプリケーションをVercelにデプロイする手順です。
+
+### 1. 準備
+
+1. GitHubにこのリポジトリをプッシュします。
+2. [Vercel](https://vercel.com)のアカウントを作成・ログインします。
+
+### 2. プロジェクト作成
+
+1. Vercelダッシュボードで「Add New...」 -> 「Project」を選択します。
+2. GitHubリポジトリをインポートします。
+3. Framework Presetは「Next.js」が自動選択されます。
+
+### 3. データベース設定 (Vercel Postgres)
+
+1. プロジェクト作成画面、または作成後の「Storage」タブから「Connect Store」を選択します。
+2. 「Postgres」を選択し、「Create New」をクリックします。
+3. データベース名（例: `habit-tracker-db`）とリージョン（日本なら `Tokyo (hnd1)` 推奨）を選択して作成します。
+4. 作成後、環境変数が自動的にプロジェクトに追加されます（`POSTGRES_URL` など）。
+
+### 4. デプロイと初期化
+
+1. 「Deploy」ボタンをクリックしてデプロイを開始します。
+2. デプロイが完了したら、アプリケーションのURLを開きます。
+3. **初回のみ**、データベースの初期化が必要です。ブラウザで以下のURLにアクセスしてください：
+   `https://あなたのアプリのURL/api/seed`
+   
+   `{"success":true,"message":"Database seeded successfully"}` と表示されれば成功です。
+
+### 5. Notionへの埋め込み
+
+1. アプリケーションのトップページを開くと、自動的にユーザーIDが生成され、専用URL（例: `.../app/ユーザーID`）にリダイレクトされます。
+2. このURLをコピーします。
+3. Notionページを開き、`/embed` と入力して「Embed」ブロックを選択します。
+4. コピーしたURLを貼り付けます。
+5. 必要に応じてサイズを調整してください。
+
+## 開発
 
 ```bash
+# 依存関係のインストール
+npm install
+
+# 開発サーバー起動
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 技術スタック
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Database**: Vercel Postgres
+- **Charts**: Chart.js / react-chartjs-2
